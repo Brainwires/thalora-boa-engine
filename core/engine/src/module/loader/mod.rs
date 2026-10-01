@@ -213,6 +213,7 @@ pub trait ModuleLoader: Any {
 pub struct IdleModuleLoader;
 
 impl ModuleLoader for IdleModuleLoader {
+    #[allow(clippy::unused_async_trait_impl)] // always fails immediately, by design
     async fn load_imported_module(
         self: Rc<Self>,
         _referrer: Referrer,

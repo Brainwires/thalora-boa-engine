@@ -889,7 +889,7 @@ impl fmt::Display for JsError {
                     ShadowEntry::Bytecode { pc, source_info } => {
                         let has_function_name = !source_info.function_name().is_empty();
                         if has_function_name {
-                            write!(f, "{}", source_info.function_name().to_std_string_escaped(),)?;
+                            write!(f, "{}", source_info.function_name().to_std_string_escaped())?;
                         } else {
                             f.write_str("<anonymous>")?;
                         }

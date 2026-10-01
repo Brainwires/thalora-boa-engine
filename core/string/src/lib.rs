@@ -221,14 +221,10 @@ impl JsString {
 
             let mut string = String::from(char);
 
-            loop {
-                let Some(cp) = iter.peek().and_then(|cp| match cp {
-                    CodePoint::Unicode(c) => Some(*c),
-                    CodePoint::UnpairedSurrogate(_) => None,
-                }) else {
-                    break;
-                };
-
+            while let Some(cp) = iter.peek().and_then(|cp| match cp {
+                CodePoint::Unicode(c) => Some(*c),
+                CodePoint::UnpairedSurrogate(_) => None,
+            }) {
                 string.push(cp);
 
                 iter.next().expect("should exist by the check above");

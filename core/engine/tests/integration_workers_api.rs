@@ -7,6 +7,8 @@
 //! not available and tests will skip gracefully. They pass when run from the
 //! thalora workspace where thalora-browser-apis initializes the context.
 
+#![allow(unused_crate_dependencies)]
+
 use boa_engine::{Context, Source};
 
 /// Helper: evaluate JS that returns a boolean. If the APIs aren't registered
