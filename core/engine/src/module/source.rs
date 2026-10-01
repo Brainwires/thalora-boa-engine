@@ -837,7 +837,7 @@ impl SourceTextModule {
                 | ModuleStatus::Evaluated { .. }
         ));
         // 6. Assert: stack is empty.
-        assert!(stack.is_empty());
+        assert_eq!(stack.len(), 0, "module stack should be empty");
 
         // 7. Return unused.
         Ok(())
@@ -1102,7 +1102,7 @@ impl SourceTextModule {
                 }
 
                 //     d. Assert: stack is empty.
-                assert!(stack.is_empty());
+                assert_eq!(stack.len(), 0, "module stack should be empty");
             }
             // 9. If result is an abrupt completion, then
             Err(err) => {
