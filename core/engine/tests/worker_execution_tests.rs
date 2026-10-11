@@ -5,6 +5,8 @@
 //! to be registered on the context. With a bare Context::default(), these APIs are
 //! not available and tests will skip gracefully.
 
+#![allow(unused_crate_dependencies)]
+
 use boa_engine::{Context, Source};
 
 /// Helper: evaluate JS that returns a boolean. Skip if APIs aren't available.

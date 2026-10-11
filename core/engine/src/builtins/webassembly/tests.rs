@@ -143,7 +143,7 @@ fn test_webassembly_memory_constructor() {
     let mut context = Context::default();
 
     // Create memory descriptor
-    let descriptor_obj = crate::object::JsObject::with_object_proto(context.intrinsics());
+    let descriptor_obj = JsObject::with_object_proto(context.intrinsics());
     descriptor_obj
         .set(js_string!("initial"), JsValue::new(1), true, &mut context)
         .unwrap();
@@ -187,7 +187,7 @@ fn test_webassembly_table_constructor() {
     let mut context = Context::default();
 
     // Create table descriptor
-    let descriptor_obj = crate::object::JsObject::with_object_proto(context.intrinsics());
+    let descriptor_obj = JsObject::with_object_proto(context.intrinsics());
     descriptor_obj
         .set(
             js_string!("element"),
@@ -225,7 +225,7 @@ fn test_webassembly_table_invalid_element_type() {
     let mut context = Context::default();
 
     // Create table descriptor with invalid element type
-    let descriptor_obj = crate::object::JsObject::with_object_proto(context.intrinsics());
+    let descriptor_obj = JsObject::with_object_proto(context.intrinsics());
     descriptor_obj
         .set(
             js_string!("element"),
@@ -253,7 +253,7 @@ fn test_webassembly_global_constructor() {
     let mut context = Context::default();
 
     // Create global descriptor
-    let descriptor_obj = crate::object::JsObject::with_object_proto(context.intrinsics());
+    let descriptor_obj = JsObject::with_object_proto(context.intrinsics());
     descriptor_obj
         .set(js_string!("value"), js_string!("i32"), true, &mut context)
         .unwrap();
@@ -291,7 +291,7 @@ fn test_webassembly_global_invalid_value_type() {
     let mut context = Context::default();
 
     // Create global descriptor with invalid value type
-    let descriptor_obj = crate::object::JsObject::with_object_proto(context.intrinsics());
+    let descriptor_obj = JsObject::with_object_proto(context.intrinsics());
     descriptor_obj
         .set(
             js_string!("value"),
@@ -451,7 +451,7 @@ fn test_webassembly_memory_64bit_support() {
     let mut context = Context::default();
 
     // Create memory descriptor with i64 index type (WebAssembly 3.0 feature)
-    let descriptor_obj = crate::object::JsObject::with_object_proto(context.intrinsics());
+    let descriptor_obj = JsObject::with_object_proto(context.intrinsics());
     descriptor_obj
         .set(js_string!("initial"), JsValue::new(1), true, &mut context)
         .unwrap();
@@ -474,7 +474,7 @@ fn test_webassembly_table_externref_support() {
     let mut context = Context::default();
 
     // Create table descriptor with externref (WebAssembly 3.0 feature)
-    let descriptor_obj = crate::object::JsObject::with_object_proto(context.intrinsics());
+    let descriptor_obj = JsObject::with_object_proto(context.intrinsics());
     descriptor_obj
         .set(
             js_string!("element"),
@@ -502,7 +502,7 @@ fn test_webassembly_global_v128_support() {
     let mut context = Context::default();
 
     // Create global descriptor with v128 (SIMD support)
-    let descriptor_obj = crate::object::JsObject::with_object_proto(context.intrinsics());
+    let descriptor_obj = JsObject::with_object_proto(context.intrinsics());
     descriptor_obj
         .set(js_string!("value"), js_string!("v128"), true, &mut context)
         .unwrap();
