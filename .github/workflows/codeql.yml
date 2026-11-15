@@ -9,9 +9,28 @@ permissions:
   contents: read
 
 jobs:
+  runners:
+    name: pick runners
+    # Our self-hosted pools first, GitHub-hosted for the overflow: a job takes our pool only
+    # while it has a free slot, else its GitHub image at once (fork pull requests: GitHub only).
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: read
+    outputs:
+      plan: ${{ steps.pick.outputs.plan }}
+    steps:
+      - id: pick
+        uses: Brainwires/.github/actions/pick-runners@2e093cef9ee71f64a75ea1c47aa2f923119050fa # pick-runners
+        with:
+          jobs: analyze=linux-x64
+          vars: ${{ toJSON(vars) }}
+
   analyze:
     name: Analyze
-    runs-on: ${{ fromJSON((startsWith(github.event_name, 'pull_request') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository)) && '"ubuntu-latest"' || (startsWith(vars.RUNNER_LINUX_X64, '[') && vars.RUNNER_LINUX_X64 || format('"{0}"', vars.RUNNER_LINUX_X64 || 'ubuntu-latest'))) }}
+    needs: runners
+    if: ${{ !cancelled() }}
+    runs-on: ${{ fromJSON(needs.runners.outputs.plan || '{}').analyze || 'ubuntu-latest' }}
     timeout-minutes: 60
     permissions:
       actions: read
