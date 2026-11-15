@@ -9,6 +9,23 @@ on:
   workflow_dispatch:
 
 jobs:
+  runners:
+    name: pick runners
+    # Our self-hosted pools first, GitHub-hosted for the overflow: a job takes our pool only
+    # while it has a free slot, else its GitHub image at once (fork pull requests: GitHub only).
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: read
+    outputs:
+      plan: ${{ steps.pick.outputs.plan }}
+    steps:
+      - id: pick
+        uses: Brainwires/.github/actions/pick-runners@415ef1f9941d798b5760bf69f908be88789371a2 # pick-runners
+        with:
+          jobs: build_linux_x64=linux-x64
+          vars: ${{ toJSON(vars) }}
+
   build:
     permissions:
       contents: write
@@ -17,6 +34,7 @@ jobs:
         include:
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-latest
+            pick: build_linux_x64
             binary_extension: ""
           - target: aarch64-apple-darwin
             os: macos-14
@@ -26,7 +44,9 @@ jobs:
           - target: x86_64-pc-windows-msvc
             os: windows-latest
             binary_extension: ".exe"
-    runs-on: ${{ matrix.os }}
+    needs: runners
+    if: ${{ !cancelled() }}
+    runs-on: ${{ fromJSON(needs.runners.outputs.plan || '{}')[matrix.pick] || matrix.os }}
     timeout-minutes: 60
     steps:
       - name: Checkout repository
