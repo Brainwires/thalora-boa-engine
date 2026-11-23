@@ -622,11 +622,12 @@ impl ByteCompiler<'_> {
 
         let mut patch_jumps = Vec::with_capacity(info.jumps.len());
         // Handle breaks/continue/returns in a finally block
-        for i in 0..info.jumps.len() {
+        for jump_record in &info.jumps {
             patch_jumps.push(self.next_opcode_location());
 
-            let jump_record = info.jumps[i].clone();
-            jump_record.perform_actions(Self::DUMMY_ADDRESS, self);
+            jump_record
+                .clone()
+                .perform_actions(Self::DUMMY_ADDRESS, self);
         }
 
         self.bytecode
